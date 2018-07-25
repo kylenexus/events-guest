@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '../../node_modules/@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'iEvents Guest';
+
+  @ViewChild('sidenav') sidenav: MatSidenav;
+
+  close(){
+    this.sidenav.close();
+  }
+
 }
