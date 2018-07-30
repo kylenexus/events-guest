@@ -15,6 +15,7 @@
   height: 30px;
   bottom: 0;
   width: 100%;
+  font-size: 12px;
 }
 
 .guest-sidenav-container {
@@ -28,5 +29,5 @@
 
 .guest-sidenav-menu{
   padding: 20px;
-  width: 200px;
+  width: 220px;
 }
