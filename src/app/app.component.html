@@ -1,85 +1,81 @@
-<mat-sidenav-container  class="guest-sidenav-container" (backdropClick)="close('backdrop')">
-  <!-- SIDE NAVIGATION -->
-  <mat-sidenav #sidenav class="guest-sidenav-menu" (keydown.escape)="close('escape')" disableClose>
-    <p><button mat-button (click)="close('toggle button')"><span class="material-icons">how_to_reg</span> Guest Information</button></p>
-  </mat-sidenav>
+<!-- HEADER -->
+<header>
+  <mat-toolbar class="mat-elevation-z5" color="primary">
+      <span>iEvents Guest </span>
+      <div fxFlex></div>
+      <button mat-button><span class="material-icons">help</span> Help </button>
+  </mat-toolbar>
+</header>
 
-  <!-- MAIN CONTENT -->
-  <mat-sidenav-content>
-    <!-- HEADER -->
-    <header>
-      <mat-toolbar class="mat-elevation-z5" color="primary">
-          <button mat-icon-button (click)="sidenav.open()"><span class="material-icons">menu</span></button><span> iEvents Guest </span>
-          <div fxFlex></div>
-          <button mat-button><span class="material-icons">help</span> Help </button>
-      </mat-toolbar>
-    </header>
+<div class="container content">
+  <div class="row justify-content-center">
+    <div class="col-sm-6">
 
-    <!-- BODY -->
-    <div class="container content">
-        <div class="row justify-content-center">
-          <div class="col-sm-6">
-            <div *ngIf="showForm">
-              <mat-card>
-                <form #form="ngForm" (ngSubmit)="generateQR(form)">
-                  <mat-card-title>Guest Information</mat-card-title>
-                  <mat-card-content>
-                    <mat-form-field class="guest-full-width">
-                      <input matInput placeholder="Company ID" id="companyid" name="companyid" required ngModel>
-                    </mat-form-field>
-                    <mat-form-field class="guest-full-width">
-                      <input matInput placeholder="First Name" id="firstname" name="firstname" required ngModel>
-                    </mat-form-field>
-                    <mat-form-field class="guest-full-width">
-                        <input matInput placeholder="Middle Name" id="middlename" name="middlename" ngModel>
-                    </mat-form-field>
-                    <mat-form-field class="guest-full-width">
-                        <input matInput placeholder="Last Name" id="lastname" name="lastname" required ngModel>
-                    </mat-form-field>
-                    <mat-form-field class="guest-full-width">
-                        <input matInput placeholder="Mobile Number" id="phone" name="phone" ngModel>
-                    </mat-form-field>
-                    <mat-form-field class="guest-full-width">
-                        <input matInput placeholder="E-mail" id="email" name="email" ngModel>
-                    </mat-form-field>
-                  </mat-card-content>
-                  <mat-card-actions>
-                    <div fxFlex></div>
-                    <button type="submit" class="guest-btn-center" mat-raised-button color="primary">SUBMIT</button>
-                    <div fxFlex></div>
-                  </mat-card-actions>
-                </form>
-              </mat-card>
-            </div>
+      <!--GUEST FORM -->
+      <div *ngIf="showForm">
+        <mat-card>
+          <form #form="ngForm" (submit)="submitForm(form)" novalidate>
+            <mat-card-title>Guest Information</mat-card-title>
 
-            <div *ngIf="showQr">
-              <mat-card>
-                <mat-card-title>Your QR Code!</mat-card-title>
-                <mat-card-content>
-                  <div fxFlex></div>
-                  <img src="{{urlQr}}" />
-                  <div fxFlex></div>
-                </mat-card-content>
-                <mat-card-actions>
-                  <div fxFlex></div>
-                  <button mat-raised-button color="primary" (click)="resetQR()"> RESET</button>
-                  <div fxFlex></div>
-                </mat-card-actions>
-              </mat-card>
+            <mat-card-content>
+              <mat-form-field class="guest-full-width">
+                <input matInput placeholder="Company ID" name="companyid" [(ngModel)]="model.companyid" maxlength="7" required>
+                <mat-error>Enter valid company id.</mat-error>
+              </mat-form-field>
 
-            </div>
-          </div>
-        </div>
+              <mat-form-field class="guest-full-width">
+                <input matInput placeholder="First Name" name="firstname" [(ngModel)]="model.firstname" maxlenth="50" required>
+                <mat-error>This is a required field.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="guest-full-width">
+                  <input matInput placeholder="Middle Name" name="middlename" [(ngModel)]="model.middlename" maxlength="50">
+              </mat-form-field>
+
+              <mat-form-field class="guest-full-width">
+                  <input matInput placeholder="Last Name" name="lastname" [(ngModel)]="model.lastname" maxlength="50" required>
+                  <mat-error>This is a required field.</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="guest-full-width">
+                  <input matInput placeholder="Mobile Number (09171234567)" name="phone" [(ngModel)]="model.phone" maxlength="11">
+              </mat-form-field>
+
+              <mat-form-field class="guest-full-width">
+                  <input matInput placeholder="E-mail" name="email" [(ngModel)]="model.email" maxlength="100">
+              </mat-form-field>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <div fxFlex></div>
+              <button type="submit" class="guest-btn-center" mat-raised-button color="primary" [disabled]="form.invalid">SUBMIT</button>
+              <div fxFlex></div>
+            </mat-card-actions>
+          </form>
+        </mat-card>
       </div>
 
-      <footer class="guest-footer">
-          <div fxFlex></div>
-          <div class="align-bottom">All Rights Reserved</div>
-          <div fxFlex></div>
-        </footer>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      <!-- QR CODE -->
 
+      <div *ngIf="showQr">
+        <mat-card>
+          <mat-card-title>Your QR Code!</mat-card-title>
+          <mat-card-content>
+            <div fxFlex></div>
+            <img src="{{urlQr}}" />
+            <div fxFlex></div>
+          </mat-card-content>
+          <mat-card-actions>
+            <div fxFlex></div>
+            <button mat-raised-button color="primary" (click)="reset()"> RESET</button>
+            <div fxFlex></div>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 
